@@ -38,24 +38,13 @@ function getRecipesFromStorage() {
 function addRecipesToDocument(recipes) {
     const mainEl = document.querySelector('main')
     console.log(recipes[0]);
-    console.log(recipes[0]["imgSrc"])
     console.log(recipes[1]);
     for (let i = 0; i < recipes.length; i++) {
         let currData = recipes[i];
         const newCard = document.createElement("recipe-card");
         console.log(newCard);
-        newCard.data = {
-            "imgSrc": currData["imgSrc"],
-            "imgAlt": currData["imgAlt"],
-            "titleLnk": currData["titleLnk"],
-            "titleTxt": currData["titleTxt"],
-            "organization": currData["organization"],
-            "rating": currData["rating"],
-            "numRatings": currData["numRatings"],
-            "lengthTime": currData["lengthTime"],
-            "ingredients": currData["ingredients"],
-        };
-        mainEl.append(newCard);
+        newCard.data = currData;
+        document.mainEl.append(newCard);
     }
 
     // A10. TODO - Get a reference to the <main> element
