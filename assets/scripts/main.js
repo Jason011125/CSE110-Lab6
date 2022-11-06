@@ -37,9 +37,6 @@ function getRecipesFromStorage() {
  */
 function addRecipesToDocument(recipes) {
     const mainEl = document.querySelector('main')
-    console.log(recipes[0]);
-    console.log(recipes[0]["imgSrc"])
-    console.log(recipes[1]);
     for (let i = 0; i < recipes.length; i++) {
         let currData = recipes[i];
         const newCard = document.createElement("recipe-card");
@@ -75,6 +72,8 @@ function saveRecipesToStorage(recipes) {
     // B1. TODO - Complete the functionality as described in this function
     //            header. It is possible in only a single line, but should
     //            be no more than a few lines.
+
+    localStorage.setItem('recipes', JSON.stringify(recipes))
 }
 
 /**
@@ -82,11 +81,35 @@ function saveRecipesToStorage(recipes) {
  * <button>.
  */
 function initFormHandler() {
-
     // B2. TODO - Get a reference to the <form> element
+    const myForm = document.getElementById('new-recipe')
+        // B3. TODO - Add an event listener for the 'submit' event, which fires when the
+        //            submit button is clicked
+    addEventListener('submit', () => {
+        let FormData = myForm.elements;
+        let recipeObject = {
+            "imgSrc": FormData["imgSrc"],
+            "imgAlt": FormData["imgAlt"],
+            "titleLnk": FormData["titleLnk"],
+            "titleTxt": FormData["titleTxt"],
+            "organization": FormData["organization"],
+            "rating": FormData["rating"],
+            "numRatings": FormData["numRatings"],
+            "lengthTime": FormData["lengthTime"],
+            "ingredients": FormData["ingredients"],
+        };
+        const newCard = document.createElement("recipe-card");
+        newCard.data = recipeObject;
+        const mainEl = document.querySelector('main')
+        mainEl.append(newCard);
+        let recipearr = getRecipesFromStorage()
+        recipearr.push(recipeObject);
+        saveRecipesToStorage(recipearr);
 
-    // B3. TODO - Add an event listener for the 'submit' event, which fires when the
-    //            submit button is clicked
+
+
+    })
+
 
     // Steps B4-B9 will occur inside the event listener from step B3
     // B4. TODO - Create a new FormData object from the <form> element reference above
@@ -101,9 +124,17 @@ function initFormHandler() {
 
     // B10. TODO - Get a reference to the "Clear Local Storage" button
     // B11. TODO - Add a click event listener to clear local storage button
+    const clearButton = document.getElementsByClassName("danger")[0];
+    clearButton.addEventListener("click", myFunction);
 
     // Steps B12 & B13 will occur inside the event listener from step B11
     // B12. TODO - Clear the local storage
     // B13. TODO - Delete the contents of <main>
 
+}
+
+function myFunction() {
+    localStorage.clear()
+    const mainEl = document.querySelector('main')
+    mainEl.innerHTML = ""
 }
